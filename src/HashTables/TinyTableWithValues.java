@@ -307,24 +307,6 @@ public class TinyTableWithValues extends SimpleBitwiseArray implements ITinyTabl
 		return;
 	}
 
-	/**
-	 * get all the records in an entire chain 
-	 * @param bucketId
-	 * @param chainId
-	 * @return
-	 */
-	/*
-	protected long[] getChain(int bucketId, int chainId)
-	{
-		int chainSize = TinySetIndexingTechnique.getChain(bucketId, chainId, I0, IStar);
-		long[] result = new long[chainSize];
-		for (int i=TinySetIndexingTechnique.chainStart; i<TinySetIndexingTechnique.chainEnd; i++) {
-			long item = this.Get(bucketId, i);
-			result[i++] = item;
-		}
-		return result;
-	}*/
-
 	private void upscaleBuckets(int bucketNumber, int lastBucket)
 	{
 		//Bucket may be wrapped around too! 
@@ -393,16 +375,6 @@ public class TinyTableWithValues extends SimpleBitwiseArray implements ITinyTabl
 	public long get(long key) {
 		FingerPrintAux fpAux = hashFunc.createHash(key);
 		return get(fpAux);
-//		int index = findItem(fpAux);
-//		
-//
-//		if (index != -1) {
-//			long value = extractValue(this.Get(fpAux.bucketId, index));
-//			return value;
-//		}
-//		else {
-//			throw new RuntimeException();
-//		}
 	}
 	public long get(FingerPrintAux fpAux) {
 		assert(TinySetIndexingTechnique.chainExist(I0[fpAux.bucketId], fpAux.chainId));
@@ -413,16 +385,6 @@ public class TinyTableWithValues extends SimpleBitwiseArray implements ITinyTabl
 		long $ = this.findItemsValue(fpAux);
 		assert($!=-1);
 		return $;
-//		int index = findItem(fpAux);
-//		
-//
-//		if (index != -1) {
-//			long value = extractValue(this.Get(fpAux.bucketId, index));
-//			return value;
-//		}
-//		else {
-//			throw new RuntimeException();
-//		}
 	}
 	public FingerPrintAux getHash(long key) {
 		return hashFunc.createHash(key);
@@ -563,39 +525,6 @@ public class TinyTableWithValues extends SimpleBitwiseArray implements ITinyTabl
 		remove(fpaux.bucketId, fpaux.chainId, indexInChain);
 	}
 
-	/*
-	public void removeOld(long key, int indexInChain) {
-		FingerPrintAux fpaux = hashFunc.createHash(key);
-
-		int chainoffset= RankIndexHashing.getChainAndUpdateOffsets(fpaux,I0,IStar,offsets,chain);
-
-		int lastOffset = chain[chainoffset];
-		long lastItem = this.Get(fpaux.bucketId, lastOffset);
-		//		Assert.assertTrue(chain.containsitemOffset));
-		this.Put(fpaux.bucketId, indexInChain, lastItem);
-		this.Put(fpaux.bucketId, lastOffset, 0l);
-
-		int bucket =0;
-		this.removeAndShrink(fpaux.bucketId);
-		removeItemFromIndex(fpaux); 
-
-		for(int i =fpaux.bucketId+1; i<fpaux.bucketId+this.I0.length;i++)
-		{
-			bucket = (i)%this.I0.length;
-			if(A[bucket]>0)
-			{
-				removeAndShrink(bucket);
-				A[bucket]--;
-				continue;
-			}
-			else
-			{
-
-				break;
-			}
-		}		
-	}
-	 */
 	public long getBucketChainID(long key) {
 		FingerPrintAux fpaux = hashFunc.createHash(key);
 		return getBucketChainID(fpaux);
